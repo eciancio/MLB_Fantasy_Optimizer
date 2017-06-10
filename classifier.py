@@ -7,12 +7,66 @@ import tempfile
 import urllib
 import mlbgame
 from operator import itemgetter
+import brscraper
+import getlineups
+scraper = brscraper.BRScraper()
+
+
+def get_data(name,attempt):
+	letter = str.lower(name.split()[1][0])
+	last = str.lower(name.split()[1][:5])
+	first = str.lower(name[:2])
+	url = "players/" + letter + '/' + last + first + '0' + str(attempt) + '.shtml'
+	return scraper.parse_tables(url)
+
+def get_era(data):
+	
+	era = data['pitching_standard'][len(data['pitching_standard'])-1]['W-L%']
+	return era
+'''
+pitchers = getlineups.main()
+for pitcher in pitchers:
+	print(pitcher[1])
+	try:
+		pitcher.append(get_era(get_data(str(pitcher[1]),1)))
+	except:
+		try:
+			pitcher.append(get_era(get_data(str(pitcher[1]),2)))
+		except:
+			pitcher.append(5.00)
+
+print(pitchers)
+'''
+
+opp_era = {}
 
 day = input("Day ")
 month = input("Month ")
-today = mlbgame.day(2017, month, day - 1)
-pre_data = []
+yesterday = mlbgame.day(2017, month, day - 1)
+today = mlbgame.day(2017, month, day)
+
+matchups= {}
 for game in today:
+	if len(str(game).split()) == 5:
+		team1 = str(game).split()[0]
+		team2 = str(game).split()[3]
+	else: 
+		if str(game).split()[2] == 'at':
+			team1 = str(game).split()[0]
+			team2 = str(game).split()[3] + ' ' + str(game).split()[4]
+		else:
+			team1 = str(game).split()[0] + ' '+ str(game).split()[1]
+			team2 = str(game).split()[4]
+
+
+ 	matchups[team1] = team2
+	matchups[team2] = team1
+
+print(matchups)
+
+
+pre_data = []
+for game in yesterday:
     print(game)
     mlb_parser.get_players(game.game_id,pre_data) 
 
