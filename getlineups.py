@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 def main():
 # We will start by scraping the daily matchups from http://www.baseballpress.com/lineups
 # First we set our website url
-	url = "http://www.baseballpress.com/lineups"
+	url = "http://www.baseballpress.com/lineups/2017-06-10"
 
 # Read the source code of our webpage and create a BeautifulSoup Object so we can 
 # parse it and pull the data we want
