@@ -51,7 +51,7 @@ def get_train_stats(team,stats,data,team_name):
 		s_p = stats['home_pitching'][0]
 
 	for player in stats[place]:
-		compile_train_stats(player,s_p,data,team_name)
+		compile_train_stats(player,s_p,data,team_name,team)
 
 
 def get_stats(team,stats,data):
@@ -64,9 +64,15 @@ def get_stats(team,stats,data):
 		s_p = stats['home_pitching'][0]
 
 	for player in stats[place]:
-		compile_stats(player,s_p,data)
+		compile_stats(player,s_p,data,team)
 
-def compile_train_stats(hitter,pitcher,data,team):
+def compile_train_stats(hitter,pitcher,data,team,home):
+    wL = .5
+    try:
+        wL=(float(pitcher.w)/float((pitcher.w+pitcher.l)))
+    except:
+        pass
+
     if hitter.pos == 'P':
         pass
     else:
@@ -74,14 +80,35 @@ def compile_train_stats(hitter,pitcher,data,team):
                 hitter.pos, 
 		hitter.avg,
 		pitcher.era,
-		hitter.h,
+		hitter.r,
 		team,
 		hitter.obp,
-		hitter.slg]
+		hitter.slg,
+                hitter.bo,
+                hitter.ops,
+                wL,
+                home]
 	data.append(stats)
 
 
-def compile_stats(hitter,pitcher,data):
+def compile_stats(hitter,pitcher,data,home):
+    wL = .5
+    try:
+        wL=(float(pitcher.w)/float((pitcher.w+pitcher.l)))
+    except:
+        pass
+
+    hr = hitter.hr
+    b3 = hitter.t
+    b2 = hitter.d
+    b1 = hitter.h - hr - b3 - b2
+    rbi = hitter.rbi
+    run = hitter.r
+    bb = hitter.bb
+    sb = hitter.sb
+
+    score = ((3*b1) + (6*b2) + (9*b3) + (12*hr) + (3.5 * rbi) + (3.2*run) + (3*bb) + (6*sb))
+    print(hitter.name,score)
     if hitter.pos == 'P':
         pass
     else:
@@ -89,9 +116,13 @@ def compile_stats(hitter,pitcher,data):
                 hitter.pos, 
 		hitter.avg,
 		pitcher.era,
-		hitter.h,
+		score,
 		hitter.obp,
-		hitter.slg]
+		hitter.slg,
+                hitter.bo,
+                hitter.ops,
+                wL,
+                home]
 	data.append(stats)
 
 def main():
