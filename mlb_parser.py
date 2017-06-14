@@ -108,7 +108,6 @@ def compile_stats(hitter,pitcher,data,home):
     sb = hitter.sb
 
     score = ((3*b1) + (6*b2) + (9*b3) + (12*hr) + (3.5 * rbi) + (3.2*run) + (3*bb) + (6*sb))
-    print(hitter.name,score)
     if hitter.pos == 'P':
         pass
     else:

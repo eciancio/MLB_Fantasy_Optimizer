@@ -304,7 +304,7 @@ def input_fn_pred():
 
 
 
-m.fit(input_fn=input_fn_traint, steps=10000)
+m.fit(input_fn=input_fn_traint, steps=1000000)
 results = m.evaluate(input_fn=input_fn_test, steps=1)
 for key in sorted(results):
         print("%s: %s" % (key, results[key]))
@@ -322,19 +322,17 @@ for i in range(len(all_class)):
     inner_array = [train_name[i],all_class[i],x_pred3[i],team_name[i]]
     final_array.append(inner_array)
 
-print(len(final_array))
-
 sorted_final = sorted(final_array, key=itemgetter(1))
 for i in range(20):
     print(sorted_final[len(sorted_final)-1 - i])
 
 more_data = {}
 for i in sorted_final:
-    if more_data.get(i[4]) == None:
-        array = [i[2]]
-        more_data[i[4]] = array
+    if more_data.get(i[3]) == None:
+        array = [i[1]]
+        more_data[i[3]] = array
     else:
-        more_data[i[4]].append(i[2])
+        more_data[i[3]].append(i[1])
 
 best_pitchers = []
 for dat in more_data:
@@ -354,17 +352,17 @@ def print_to_txt(data,pos):
 	with open(name, 'w') as stream:
 		if pos == 'OF':
 			for dat in data:
-				if dat[3] == 'LF' or dat[3] == 'RF' or dat[3] == 'CF':
+				if dat[2] == 'LF' or dat[2] == 'RF' or dat[2] == 'CF':
 					stream.write(str(dat))
 					stream.write('\n')
 		elif pos == '2B':
 			 for dat in data:
-                                if dat[3] == '2B' or dat[3] == '3B-2B':
+                                if dat[2] == '2B' or dat[2] == '3B-2B':
                                         stream.write(str(dat))
                                         stream.write('\n')
 		else:
 			 for dat in data:
-                                if dat[3] == pos:
+                                if dat[2] == pos:
                                         stream.write(str(dat))
                                         stream.write('\n')
 positions = ['1B','2B','3B','SS','OF','C']
