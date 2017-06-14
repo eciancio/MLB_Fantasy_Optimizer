@@ -223,7 +223,7 @@ today = mlbgame.day(2017, month, day)
 get_todays_stats()
 
 #get training stats to train
-#get_training_data()
+get_training_data()
 
 
 #make columns 
@@ -303,10 +303,10 @@ def input_fn_pred():
 
 
 
-#m.fit(input_fn=input_fn_traint, steps=100)
-#results = m.evaluate(input_fn=input_fn_test, steps=1)
-#for key in sorted(results):
- #       print("%s: %s" % (key, results[key]))
+m.fit(input_fn=input_fn_traint, steps=1000)
+results = m.evaluate(input_fn=input_fn_test, steps=1)
+for key in sorted(results):
+    print("%s: %s" % (key, results[key]))
 
 
 predict_class = m.predict(input_fn=input_fn_pred)
