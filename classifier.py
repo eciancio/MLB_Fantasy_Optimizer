@@ -325,6 +325,11 @@ sorted_final = sorted(final_array, key=itemgetter(1))
 for i in range(20):
     print(sorted_final[len(sorted_final)-1 - i])
 
+with open('prediction/all.txt','w') as cat:
+    for dog in sorted_final:
+        cat.write(str(dog))
+        cat.write('\n')
+
 more_data = {}
 for i in sorted_final:
     if more_data.get(i[3]) == None:
